@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我们的恋爱小窝</title>
+    <style>
+        body {  
+            font-family: "微软雅黑", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('花.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            color: #333;
+         }
+        .nav {
+            background-color: #ff8fa3;
+            padding: 15px;
+            text-align: center;
+        }
+        .nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .section {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #ff6b8b;
+            border-bottom: 2px solid #ffccd5;
+            padding-bottom: 10px;
+        }
+        #daysCounter {
+            font-size: 30px;
+            text-align: center;
+            color: #ff6b8b;
+            margin: 20px 0;
+        }
+        .memory-item {
+            margin: 20px 0;
+            padding-left: 20px;
+            border-left: 3px solid #ffccd5;
+        }
+        .album {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 15px;
+            margin-top: 20px;
+            overflow-x: auto
+            flex: 0 0 auto
+        }
+        .album img {
+            width: 200px;
+            height: 370px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        #messageBoard {
+            margin-top: 20px;
+            min-height: 100px;
+            border: 1px solid #eee;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #messageInput {
+            width: 70%;
+            padding: 10px;
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        #sendBtn {
+            padding: 10px 20px;
+            background-color: #ff8fa3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .todo-list {
+            margin-top: 20px;
+        }
+        .todo-item {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff5f7;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+     <!-- 添加背景音乐 -->
+  <audio src="唯一.mp3" autoplay loop controls="false"></audio>
+    <div class="nav">
+        恋爱天数
+        我们的故事
+        情侣相册
+        留言板
+        要做的事
+    </div>
+
+    <!-- 恋爱天数 -->
+    <div id="counter" class="section">
+        <h2>我们在一起多少天啦</h2>
+        <div id="daysCounter">加载中...</div>
+        <p style="text-align: center;">从2025年2月25日开始</p >
+    </div>
+
+    <!-- 我们的故事 -->
+    <div id="story" class="section">
+        <h2>我们的故事</h2>
+        <div class="memory-item">
+            <strong>第一次认识</strong>：因抖音聊天领红包任务而结识
+        </div>
+        <div class="memory-item">
+            <strong>确定关系</strong>：2025年2月24日，你向我表白直到25日我答应与你在一起
+        </div>
+        <div class="memory-item">
+            <strong>最难忘的事</strong>：2025年3月3日，小老登没有安全感，凌晨1点给他发消息告诉他我喜欢他并且离不开他，告诉他他对我有多么重要
+        </div>
+    </div>
+
+    <!-- 情侣相册 -->
+    <div id="album" class="section">
+        <h2>我们的相册</h2>
+        <div class="album">
+            <img src="照片1.jpg" alt="记录1">
+            <img src="照片2.jpg" alt="记录2">
+            <img src="照片3.jpg" alt="记录3">
+            <img src="照片4.jpg" alt="记录4"> 
+     </div>
+    </div>
+
+    <!-- 留言板 -->
+    <div id="message" class="section">
+        <h2>悄悄话留言板</h2>
+        <div id="messageBoard"></div>
+        <input type="text" id="messageInput" placeholder="亲爱的小老登，请发言">
+        <button id="sendBtn">发送</button>
+    </div>
+
+    <!-- 要做的事 -->
+    <div id="todo" class="section">
+        <h2>我们要一起做的事</h2>
+        <div class="todo-list">
+            <div class="todo-item">□ 一起去看海边日出</div>
+            <div class="todo-item">□ 学做对方爱吃的菜</div>
+            <div class="todo-item">□ 养一只叫"花卷"的猫</div>
+            <div class="todo-item">□ 拥有一个属于我们自己的家</div>
+            <div class="todo-item">□ 去云南大理旅游</div>
+        </div>
+    </div>
+ 
+    <script>
+        // 计算恋爱天数
+        const startDate = new Date("2025-02-25");
+        function updateDays() {
+            const today = new Date();
+            const days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+            document.getElementById("daysCounter").textContent = `已经在一起 ${days}天啦！`;
+        }
+        updateDays();
+      // 留言板功能
+    const messageBoard = document.getElementById("messageBoard");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    // 从 localStorage 加载留言
+    function loadMessages() {
+      const messages = JSON.parse(localStorage.getItem("loveMessages") || "[]");
+      messageBoard.innerHTML = messages.map(msg => `<p><strong>${msg.time}</strong>：${msg.text}</p >`).join("");
+    }
+
+    // 保存留言到 localStorage
+    function saveMessage(text, time) {
+      const messages = JSON.parse(localStorage.getItem("loveMessages") || "[]");
+      messages.push({ text, time });
+      localStorage.setItem("loveMessages", JSON.stringify(messages));
+    }
+
+    // 页面加载时加载留言
+    loadMessages();
+
+    sendBtn.addEventListener("click", () => {
+      const text = messageInput.value.trim();
+      if (text) {
+        const time = new Date().toLocaleString();
+        messageBoard.innerHTML += `<p><strong>${time}</strong>：${text}</p >`;
+        // 调用保存函数
+        saveMessage(text, time);
+        messageInput.value = "";
+      }
+    });
+
+    // 按回车键发送留言
+    messageInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendBtn.click();
+    });
+            </script>
+</body>
+</html>
